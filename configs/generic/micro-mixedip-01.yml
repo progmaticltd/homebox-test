@@ -11,8 +11,8 @@
 network:
   domain: hb-test-micro-sg7p7xtjplvu.site
   hostname: main.hb-test-micro-sg7p7xtjplvu.site
-  external_ip: auto
-  backup_ip: auto_ipv6
+  external_ip: 78.141.203.62
+  backup_ip: 2a05:f480:1000:87e:5400:02ff:fe23:a5b1
 
 ###############################################################################
 # Users
