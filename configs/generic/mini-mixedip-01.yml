@@ -148,6 +148,10 @@ transmission:
 bind:
   # Bind is actually in testing phase, feedback welcome
   install: true
+  # Custom delays and retries to check DNS propagation
+  propagation:
+    retries: 30
+    delay: 60
   # Default servers to forward queries
   forward:
     - 8.8.8.8
