@@ -1,0 +1,178 @@
+# HomeBox configuration
+#
+# - Name: mini-mixedip
+# - Features set: mini
+# - Variant: mixedip
+# - Version: 01
+# - Description: Mini features set, mixed IP address (IPv4+IPv6) with automatic detection. Used in Vultr.
+
+###############################################################################
+# Domain and hostname information
+network:
+  domain: mainhb-test-mini-tlf5peut9bu7.site
+  hostname: main.mainhb-test-mini-tlf5peut9bu7.site
+  external_ip: auto
+  backup_ip: auto_ipv6
+
+###############################################################################
+# Users
+users:
+- uid: marie
+  cn: Marie Skłodowska Curie
+  first_name: Marie
+  last_name: Curie
+  mail: 'marie@{{ network.domain }}'
+  aliases:
+    - 'marie.skłodowska@{{ network.domain }}'
+    - 'marie.curie@{{ network.domain }}'
+- uid: ada
+  cn: Augusta Ada King
+  first_name: Ada
+  last_name: Lovelace
+  mail: 'ada@{{ network.domain }}'
+  aliases:
+    - 'ada.lovelace@{{ network.domain }}'
+- uid: maria
+  cn: Maria Goeppert Mayer
+  first_name: Maria
+  last_name: Mayer
+  mail: 'maria@{{ network.domain }}'
+  aliases:
+    - 'maria.goeppert.mayer@{{ network.domain }}'
+    - 'maria.goeppert@{{ network.domain }}'
+
+###############################################################################
+# Email related options
+mail:
+  max_attachment_size: 25   # In megabytes
+  autoconfig: true          # Support Thunderbird automatic configuration
+  autodiscover: true        # Support MS Outlook automatic configuration (uses https)
+  quota:
+    default: 1G             # Maximum allowed mailbox size for your users.
+                            # The safe maximum value will be automatically computed in a next version.
+  discard_duplicates: false # Discard duplicates messages.
+                            # It is safe, but you can disable if you are worried
+                            # The default timerange is 1h
+  #############################################################################
+  # Postfix options
+  postfix:
+    mynetworks: ~
+  #############################################################################
+  antispam:                 # Check inbound and outbound emails for viruses
+    active: true            # Activate or not
+    webui:                  # rspamd web interface
+      active: true          # Activate or not
+  antivirus:                # Check inbound and outbound emails for viruses
+    active: true            # or false
+  impersonate:              # Activate dovecot "master" user feature, ideal for families and communities
+    active: true            # https://wiki2.dovecot.org/Authentication/MasterUsers
+  #############################################################################
+  # Virtual folders
+  virtual_folders:          # Create virtual IMAP folders, like flagged,
+    active: true            # deleted, unread, conversations, etc.
+  #############################################################################
+  recipient_delimiter: '+'  # The characters you want to use to split email address from mailbox, i.e.:
+                            # when receiving a message to john+lists@example.com, it should go directly to
+                            # the 'lists' folder...
+
+###############################################################################
+# System related
+system:
+  release: stretch
+  devel: false
+  debug: false
+
+###############################################################################
+# Once the system is in place, it is possible to use 'limit' for the rule, instead of any.
+# It is also possible to use fail2ban, which is installed anyway
+firewall:
+  fwknop:
+    install: false
+  ssh:
+    - src: any
+      rule: deny
+      comment: Deny SSH from anywhere
+
+###############################################################################
+# Extra security values
+security:
+  auto_update: true
+
+###############################################################################
+# Install a webmail, or not...
+webmail:
+  install: true
+
+###############################################################################
+# Install a static web site on www.yourdomain.com
+# Still requests two certificates, one for '@' and one for 'www'
+website:
+  install: true
+
+###############################################################################
+# Install backup scripts
+backup:
+  install: false
+
+###############################################################################
+# Dictionaries to install in the system
+dictionaries:
+  - name: English
+    id: en
+  - name: French
+    id: fr
+
+###############################################################################
+# Jabber server
+# The port numbers are not exposed externally, everything
+# is behind nginx, in https.
+# By default, the server is open to other servers (public flag to true).
+# To restrict to only a few domains, set the flag to false, and
+# enter the list of domains in the trust array
+ejabberd:
+  install: true
+
+###############################################################################
+# Gogs installation with LDAP authentication
+# The super administrator is "postmaster" for now.
+gogs:
+  install: false
+
+###############################################################################
+# Transmission installation
+transmission:
+  install: false
+
+###############################################################################
+# Bind server defaults
+bind:
+  # Bind is actually in testing phase, feedback welcome
+  install: true
+  # Default servers to forward queries
+  forward:
+    - 8.8.8.8
+    - 2001:4860:4860::8888
+    - 8.8.4.4
+    - 2001:4860:4860::8844
+  # Timing configuration (see https://www.ripe.net/publications/docs/ripe-203)
+  refresh: 86400          # 24 hours
+  retry: 7200             # 2 hours
+  expire: 3600000         # 10000 hours
+  neg_cache_ttl: 172800   # 2 days
+  ttl: 3600               # 1 hour
+  # General configuration
+  mx_priority: 10
+  # DNSSEC options
+  dnssec:
+    active: true
+    algo: RSASHA256
+
+# Privoxy privacy proxy and the onion router
+tor:
+  install: false
+privoxy:
+  install: false
+
+# Zabbix monitoring
+zabbix:
+  install: false
