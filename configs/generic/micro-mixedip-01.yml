@@ -9,8 +9,8 @@
 ###############################################################################
 # Domain and hostname information
 network:
-  domain: hmbx.pw
-  hostname: main.hmbx.pw
+  domain: hb-test-micro-sg7p7xtjplvu.site
+  hostname: main.hb-test-micro-sg7p7xtjplvu.site
   external_ip: auto
   backup_ip: auto_ipv6
 
@@ -21,34 +21,34 @@ users:
   cn: Victor Hugo
   first_name: Victor
   last_name: Hugo
-  mail: victor@hmbx.pw
+  mail: 'victor@{{ network.domain }}'
   aliases:
-    - vhugo@hmbx.pw
-    - victor.hugo@hmbx.pw
+    - 'vhugo@{{ network.domain }}'
+    - 'victor.hugo@{{ network.domain }}'
 - uid: camille
   cn: Camille Claudel
   first_name: Camille
   last_name: Claudel
-  mail: camille@hmbx.pw
+  mail: 'camille@{{ network.domain }}'
   aliases:
-    - cclaudel@hmbx.pw
-    - camille.claudel@hmbx.pw
+    - 'cclaudel@{{ network.domain }}'
+    - 'camille.claudel@{{ network.domain }}'
 - uid: rembrandt
   cn: Rembrandt Harmenszoon van Rijn
   first_name: Rembrandt
   last_name: Harmenszoon
-  mail: rembrandt@hmbx.pw
+  mail: 'rembrandt@{{ network.domain }}'
   aliases:
-    - rharmenszoon@hmbx.pw
-    - rembrandt.harmenszoon@hmbx.pw
+    - 'rharmenszoon@{{ network.domain }}'
+    - 'rembrandt.harmenszoon@{{ network.domain }}'
 - uid: antonio
   cn: Antonio Vivaldi
   first_name: Antonio
   last_name: Vivaldi
-  mail: antonio@hmbx.pw
+  mail: 'antonio@{{ network.domain }}'
   aliases:
-    - tonio@hmbx.pw
-    - antonio.vivaldi@hmbx.pw
+    - 'tonio@{{ network.domain }}'
+    - 'antonio.vivaldi@{{ network.domain }}'
 
 ###############################################################################
 # Email related options
@@ -157,9 +157,6 @@ transmission:
 bind:
   # Bind is actually in testing phase, feedback welcome
   install: true
-  # Wait for the Glue records to be updated before starting the deployment.
-  # This flag is a work in progress to test if waiting is necessary or not.
-  wait_for_propagation: false
   # Default servers to forward queries
   forward:
     - 8.8.8.8
