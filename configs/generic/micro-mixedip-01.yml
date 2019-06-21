@@ -88,7 +88,7 @@ mail:
 # System related
 system:
   release: stretch
-  devel: false
+  devel: true
   debug: false
 
 ###############################################################################
@@ -155,7 +155,6 @@ transmission:
 ###############################################################################
 # Bind server defaults
 bind:
-  # Bind is actually in testing phase, feedback welcome
   install: true
   # Custom delays and retries to check DNS propagation
   propagation:

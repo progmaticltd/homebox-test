@@ -11,8 +11,8 @@
 network:
   domain: mainhb-test-mini-tlf5peut9bu7.site
   hostname: main.mainhb-test-mini-tlf5peut9bu7.site
-  external_ip: auto
-  backup_ip: auto_ipv6
+  external_ip: 95.179.232.95
+  backup_ip: 2a05:f480:1000:9a5:5400:02ff:fe23:bb9a
 
 ###############################################################################
 # Users
@@ -79,7 +79,7 @@ mail:
 # System related
 system:
   release: stretch
-  devel: false
+  devel: true
   debug: false
 
 ###############################################################################
