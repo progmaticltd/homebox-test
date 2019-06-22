@@ -4,6 +4,8 @@
 # - Features set: micro
 # - Variant: mixedip
 # - Version: 01
+# - Drive: 25G
+# - RAM: 1G
 # - Description: Micro features set, mixed IP address (IPv4+IPv6) with automatic detection. Used in Vultr.
 
 ###############################################################################

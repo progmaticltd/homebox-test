@@ -4,13 +4,15 @@
 # - Features set: mini
 # - Variant: mixedip
 # - Version: 01
+# - Drive: 25G
+# - RAM: 2G
 # - Description: Mini features set, mixed IP address (IPv4+IPv6) with automatic detection. Used in Vultr.
 
 ###############################################################################
 # Domain and hostname information
 network:
-  domain: mainhb-test-mini-tlf5peut9bu7.site
-  hostname: main.mainhb-test-mini-tlf5peut9bu7.site
+  domain: hb-test-mini-tlf5p6ut.site
+  hostname: main.hb-test-mini-tlf5p6ut.site
   external_ip: 95.179.232.95
   backup_ip: 2a05:f480:1000:9a5:5400:02ff:fe23:bb9a
 
