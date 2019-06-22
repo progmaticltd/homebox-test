@@ -106,6 +106,7 @@ firewall:
 # Extra security values
 security:
   auto_update: true
+  dhparam_size: 1024     # Use a small value to decrease deployment time
 
 ###############################################################################
 # Install a webmail, or not...
