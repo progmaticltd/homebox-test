@@ -2,6 +2,7 @@
 
 - name: Check API access
   hosts: localhost
+  become: false
   vars_files:
     - '{{ playbook_dir }}/../../config/systems.yml'
   roles:
@@ -9,6 +10,7 @@
 
 - name: Reinstall and start all the test instances
   hosts: localhost
+  become: false
   vars:
     state: 'reinstalled'
   vars_files:
