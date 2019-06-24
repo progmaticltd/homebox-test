@@ -1,0 +1,8 @@
+---
+
+- name: Set up all the server instances
+  include_tasks: roles/setup-environment/tasks/setup-one.yml
+  with_items:
+    - '{{ vultr.instances }}'
+  loop_control:
+    loop_var: instance

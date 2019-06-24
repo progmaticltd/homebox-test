@@ -1,0 +1,14 @@
+---
+
+- name: 'Set the server instance state'
+  local_action:
+    module: vultr_server
+    name: '{{ instance.name }}'
+    os: '{{ instance.os | default(vultr.default.os) }}'
+    plan: '{{ instance.plan | default(vultr.default.plan) }}'
+    region: '{{ vultr.region }}'
+    ssh_keys: '{{ vultr.ssh_keys }}'
+    state: '{{ state }}'
+    ipv6_enabled: '{{ instance.ipv6_enabled }}'
+    hostname: '{{ instance.hostname }}'
+    firewall_group: '{{ instance.firewall_group }}'

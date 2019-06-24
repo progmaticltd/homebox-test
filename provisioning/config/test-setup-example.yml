@@ -1,0 +1,27 @@
+---
+
+# Configuration example to run a set of tests on Vultr
+# These servers are used to test micro / mini homebox instances
+# and ISO image building
+
+vultr:
+  region: London
+  default:
+    os: Debian 9 x64 (stretch)
+    plan: 1024 MB RAM,25 GB SSD,1.00 TB BW
+  ssh_keys:
+    - jenkins.homebox.space
+    - default
+  instances:
+    - name: test-micro-01
+      ipv6_enabled: true
+      hostname: main
+      firewall_group: 'homebox-server'
+    - name: test-mini-01
+      ipv6_enabled: true
+      hostname: main
+      firewall_group: 'homebox-server'
+    - name: test-iso-stretch
+      ipv6_enabled: false
+      hostname: iso-build
+      firewall_group: 'homebox-server'

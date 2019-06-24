@@ -1,0 +1,17 @@
+---
+
+- name: Check API access
+  hosts: localhost
+  vars_files:
+    - '{{ playbook_dir }}/../../config/systems.yml'
+  roles:
+    - check-api-access
+
+- name: Create and start the test instances
+  hosts: localhost
+  vars:
+    state: 'started'
+  vars_files:
+    - '{{ playbook_dir }}/../../config/systems.yml'
+  roles:
+    - setup-environment
