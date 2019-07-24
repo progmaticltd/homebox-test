@@ -11,6 +11,7 @@
 ###############################################################################
 # Domain and hostname information
 network:
+  auto_detect_ip: false
   domain: hb-test-micro-sg7p7xtjplvu.site
   hostname: main.hb-test-micro-sg7p7xtjplvu.site
   external_ip: 78.141.203.62

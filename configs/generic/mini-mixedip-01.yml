@@ -11,6 +11,7 @@
 ###############################################################################
 # Domain and hostname information
 network:
+  auto_detect_ip: false
   domain: hb-test-mini-tlf5p6ut.site
   hostname: main.hb-test-mini-tlf5p6ut.site
   external_ip: 95.179.232.95
