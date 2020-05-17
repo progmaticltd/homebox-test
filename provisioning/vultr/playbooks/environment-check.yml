@@ -9,13 +9,13 @@
   roles:
     - check-api-access
 
-- name: Stop all the test instances
+- name: Create and start the test instances
   hosts: localhost
   connection: local
   become: false
   vars:
-    state: 'stopped'
+    state: 'started'
   vars_files:
     - '{{ playbook_dir }}/../../config/systems-{{ env }}.yml'
   roles:
-    - setup-environment
+    - check-environment
