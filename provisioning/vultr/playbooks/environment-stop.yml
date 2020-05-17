@@ -5,7 +5,7 @@
   connection: local
   become: false
   vars_files:
-    - '{{ playbook_dir }}/../../config/systems.yml'
+    - '{{ playbook_dir }}/../../config/systems-{{ env }}.yml'
   roles:
     - check-api-access
 
@@ -16,6 +16,6 @@
   vars:
     state: 'stopped'
   vars_files:
-    - '{{ playbook_dir }}/../../config/systems.yml'
+    - '{{ playbook_dir }}/../../config/systems-{{ env }}.yml'
   roles:
     - setup-environment
