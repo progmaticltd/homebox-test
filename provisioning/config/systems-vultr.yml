@@ -1,0 +1,24 @@
+---
+
+# Configuration for Vultr deployment
+vultr:
+  region: London
+  default:
+    os: Debian 9 x64 (stretch)
+    plan: 1024 MB RAM,25 GB SSD,1.00 TB BW
+  ssh_keys:
+    - jenkins.homebox.space
+    - default
+  instances:
+    - name: stretch-nano
+      os: Debian 9 x64 (stretch)
+      ipv6_enabled: false
+      hostname: main
+      firewall_group: 'homebox-server'
+      private_network_enabled: true
+    - name: buster-nano
+      os: Debian 10 x64 (buster)
+      ipv6_enabled: false
+      hostname: main
+      firewall_group: 'homebox-server'
+      private_network_enabled: true

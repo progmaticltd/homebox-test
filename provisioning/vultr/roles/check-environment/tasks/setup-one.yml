@@ -1,0 +1,28 @@
+---
+
+- name: Display the server facts to build
+  debug:
+    msg: '{{ param.label }}: {{ param.value }}'
+  loop:
+    - label: name
+      value: '{{ instance.name }}'
+    - label: os
+      value: '{{ instance.os | default(vultr.default.os) }}'
+    - label: plan
+      value: '{{ instance.plan | default(vultr.default.plan) }}'
+    - label: region
+      value: '{{ vultr.region }}'
+    - label: ssh_keys
+      value: '{{ vultr.ssh_keys }}'
+    - label: state
+      value: '{{ state }}'
+    - label: ipv6_enabled
+      value: '{{ instance.ipv6_enabled }}'
+    - label: hostname
+      value: '{{ instance.hostname }}'
+    - label: firewall_group
+      value: '{{ instance.firewall_group }}'
+    - label: private_network_enabled
+      value: '{{ instance.private_network_enabled | default(false) }}'
+  loop_control:
+    loop_var: param

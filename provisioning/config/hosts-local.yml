@@ -1,6 +1,6 @@
 ---
 
-# Localhost
+# Minimal inventory for testing on localhost
 all:
   hosts:
     localhost:

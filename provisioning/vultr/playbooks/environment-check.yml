@@ -18,4 +18,4 @@
   vars_files:
     - '{{ playbook_dir }}/../../config/systems-{{ env }}.yml'
   roles:
-    - setup-environment
+    - check-environment

@@ -1,4 +1,1 @@
 # Ignore the system file used for tests
-
-provisioning/config/*
-!provisioning/config/*example*
