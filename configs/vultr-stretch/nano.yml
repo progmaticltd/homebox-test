@@ -1,20 +1,21 @@
-# HomeBox configuration
-#
-# - Name: micro-mixedip
-# - Features set: micro
-# - Variant: mixedip
-# - Version: 01
-# - Drive: 25G
-# - RAM: 1G
-# - Description: Micro features set, mixed IP address (IPv4+IPv6) with automatic detection. Used in Vultr.
+# HomeBox configuration for local testing
+
+###############################################################################
+# System settings
+system:
+  release: stretch
+  devel: true
+  debug: true
+  keep_certs: false
+  apt_cacher: 10.30.50.4
 
 ###############################################################################
 # Domain and hostname information
 network:
-  domain: hb-test-micro-sg7p7xtjplvu.site
-  hostname: main.hb-test-micro-sg7p7xtjplvu.site
-  external_ip: 78.141.203.62
-  backup_ip: 2a05:f480:1000:87e:5400:02ff:fe23:a5b1
+  domain: homebox.local
+  hostname: main.homebox.local
+  external_ip: 136.244.78.7
+  backup_ip: 2001:19f0:7400:820e:5400:02ff:fec3:c80f
 
 ###############################################################################
 # Users
@@ -23,34 +24,34 @@ users:
   cn: Victor Hugo
   first_name: Victor
   last_name: Hugo
-  mail: 'victor@{{ network.domain }}'
+  mail: victor@homebox.local
   aliases:
-    - 'vhugo@{{ network.domain }}'
-    - 'victor.hugo@{{ network.domain }}'
+    - vhugo@homebox.local
+    - victor.hugo@homebox.local
 - uid: camille
   cn: Camille Claudel
   first_name: Camille
   last_name: Claudel
-  mail: 'camille@{{ network.domain }}'
+  mail: camille@homebox.local
   aliases:
-    - 'cclaudel@{{ network.domain }}'
-    - 'camille.claudel@{{ network.domain }}'
+    - cclaudel@homebox.local
+    - camille.claudel@homebox.local
 - uid: rembrandt
   cn: Rembrandt Harmenszoon van Rijn
   first_name: Rembrandt
   last_name: Harmenszoon
-  mail: 'rembrandt@{{ network.domain }}'
+  mail: rembrandt@homebox.local
   aliases:
-    - 'rharmenszoon@{{ network.domain }}'
-    - 'rembrandt.harmenszoon@{{ network.domain }}'
+    - rharmenszoon@homebox.local
+    - rembrandt.harmenszoon@homebox.local
 - uid: antonio
   cn: Antonio Vivaldi
   first_name: Antonio
   last_name: Vivaldi
-  mail: 'antonio@{{ network.domain }}'
+  mail: antonio@homebox.local
   aliases:
-    - 'tonio@{{ network.domain }}'
-    - 'antonio.vivaldi@{{ network.domain }}'
+    - tonio@homebox.local
+    - antonio.vivaldi@homebox.local
 
 ###############################################################################
 # Email related options
@@ -70,11 +71,11 @@ mail:
     mynetworks: ~
   #############################################################################
   antispam:                 # Check inbound and outbound emails for viruses
-    active: true            # Activate or not
+    active: false           # Activate or not
     webui:                  # rspamd web interface
       active: false         # Activate or not
   antivirus:                # Check inbound and outbound emails for viruses
-    active: true            # or false
+    active: false           # or false
   impersonate:              # Activate dovecot "master" user feature, ideal for families and communities
     active: false           # https://wiki2.dovecot.org/Authentication/MasterUsers
   #############################################################################
@@ -87,19 +88,49 @@ mail:
                             # the 'lists' folder...
 
 ###############################################################################
-# System related
-system:
-  release: stretch
-  devel: true
-  debug: false
-
-###############################################################################
 # Once the system is in place, it is possible to use 'limit' for the rule, instead of any.
 # It is also possible to use fail2ban, which is installed anyway
 firewall:
   fwknop:
     install: false
+  output:
+    policy: deny
+    rules:
+      - dest: any
+        port: 80,443
+        comment: 'Allow web access'
+      - dest: any
+        proto: udp
+        port: 53
+        comment: 'Allow DNS requests'
+      - dest: any
+        proto: udp
+        port: 123
+        comment: 'Allow NTP requests'
+      - dest: any
+        proto: udp
+        from_port: 68
+        port: 67
+        comment: 'Allow DHCP requests'
+      - dest: any
+        port: 25
+        comment: 'Allow SMTP connections to other servers'
+      - dest: any
+        port: 110,995,143,993
+        comment: 'Allow the retrieval of emails from other servers (POP/IMAP)'
+      - dest: 10.30.50.2
+        port: 14000,15000
+        comment: 'Allow access to the Pebble ACME server'
+      - dest: 10.30.50.3
+        port: 8055
+        comment: 'Allow access to the Pebble challenge Test server'
+      - dest: 10.30.50.4
+        port: 3142
+        comment: 'Allow APT cacher access'
   ssh:
+    - src: 10.8.96.3
+      rule: allow
+      comment: Allow ssh from the private network
     - src: any
       rule: deny
       comment: Deny SSH from anywhere
@@ -108,18 +139,18 @@ firewall:
 # Extra security values
 security:
   auto_update: true
-  dhparam_size: 1024     # Use a small value to decrease deployment time
+  dhparam_size: 2048
 
 ###############################################################################
 # Install a webmail, or not...
 webmail:
-  install: true
+  install: false
 
 ###############################################################################
 # Install a static web site on www.yourdomain.com
 # Still requests two certificates, one for '@' and one for 'www'
 website:
-  install: true
+  install: false
 
 ###############################################################################
 # Install backup scripts
@@ -145,12 +176,6 @@ ejabberd:
   install: false
 
 ###############################################################################
-# Gogs installation with LDAP authentication
-# The super administrator is "postmaster" for now.
-gogs:
-  install: false
-
-###############################################################################
 # Transmission installation
 transmission:
   install: false
@@ -158,17 +183,12 @@ transmission:
 ###############################################################################
 # Bind server defaults
 bind:
+  # Bind is actually in testing phase, feedback welcome
   install: true
-  # Custom delays and retries to check DNS propagation
-  propagation:
-    retries: 30
-    delay: 60
   # Default servers to forward queries
   forward:
     - 8.8.8.8
-    - 2001:4860:4860::8888
     - 8.8.4.4
-    - 2001:4860:4860::8844
   # Timing configuration (see https://www.ripe.net/publications/docs/ripe-203)
   refresh: 86400          # 24 hours
   retry: 7200             # 2 hours
@@ -181,6 +201,8 @@ bind:
   dnssec:
     active: true
     algo: RSASHA256
+  propagation:
+    check: false
 
 # Privoxy privacy proxy and the onion router
 tor:
@@ -191,3 +213,7 @@ privoxy:
 # Zabbix monitoring
 zabbix:
   install: false
+
+# Use the internal ACME server
+devel:
+  acme_server: pebble

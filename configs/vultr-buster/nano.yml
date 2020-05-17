@@ -3,7 +3,7 @@
 ###############################################################################
 # System settings
 system:
-  release: stretch
+  release: buster
   devel: true
   debug: true
   keep_certs: false
@@ -14,8 +14,8 @@ system:
 network:
   domain: homebox.local
   hostname: main.homebox.local
-  external_ip: 10.30.50.121
-  backup_ip: 10.30.50.122
+  external_ip: 136.244.78.7
+  backup_ip: 2a05:f480:1000:8da:5400:02ff:fec3:c827
 
 ###############################################################################
 # Users
@@ -71,11 +71,11 @@ mail:
     mynetworks: ~
   #############################################################################
   antispam:                 # Check inbound and outbound emails for viruses
-    active: true            # Activate or not
+    active: false           # Activate or not
     webui:                  # rspamd web interface
       active: false         # Activate or not
   antivirus:                # Check inbound and outbound emails for viruses
-    active: true            # or false
+    active: false           # or false
   impersonate:              # Activate dovecot "master" user feature, ideal for families and communities
     active: false           # https://wiki2.dovecot.org/Authentication/MasterUsers
   #############################################################################
@@ -128,12 +128,9 @@ firewall:
         port: 3142
         comment: 'Allow APT cacher access'
   ssh:
-    - src: 172.16.10.0/24
-      rule: limit
-      comment: Allow ssh from LAN
-    - src: 192.168.54.0/24
-      rule: limit
-      comment: Allow ssh from LAN
+    - src: 10.8.96.3
+      rule: allow
+      comment: Allow ssh from the private network
     - src: any
       rule: deny
       comment: Deny SSH from anywhere
