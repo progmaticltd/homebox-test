@@ -1,8 +1,9 @@
 ---
 
 - name: 'Set the server instance state'
-  local_action:
-    module: vultr_server
+  delegate_to: localhost
+  register: api_answer
+  vultr_server:
     name: '{{ instance.name }}'
     os: '{{ instance.os | default(vultr.default.os) }}'
     plan: '{{ instance.plan | default(vultr.default.plan) }}'
@@ -12,3 +13,29 @@
     ipv6_enabled: '{{ instance.ipv6_enabled }}'
     hostname: '{{ instance.hostname }}'
     firewall_group: '{{ instance.firewall_group }}'
+
+- name: Store the private IP address
+  when: state != 'stopped'
+  set_fact:
+    private_ip: '{{ api_answer.vultr_server.internal_ip }}'
+
+- name: Activate file include in network interfaces
+  when: state != 'stopped'
+  delegate_to: '{{ api_answer.vultr_server.v4_main_ip }}'
+  replace:
+    path: /etc/network/interfaces
+    regexp: '^#source /etc/network/interfaces.d/.*'
+    replace: 'source /etc/network/interfaces.d/*'
+
+- name: Copy the private network interface template file
+  register: interface_file
+  when: state != 'stopped'
+  delegate_to: '{{ api_answer.vultr_server.v4_main_ip }}'
+  template:
+    src: private-ip.conf
+    dest: /etc/network/interfaces.d/private.conf
+
+- name: Activate the second network interface
+  when: state != 'stopped' and interface_file.changed
+  delegate_to: '{{ api_answer.vultr_server.v4_main_ip }}'
+  shell: 'ifup ens7'
