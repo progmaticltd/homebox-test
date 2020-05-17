@@ -5,7 +5,7 @@ vultr:
   region: London
   default:
     os: Debian 9 x64 (stretch)
-    plan: 1024 MB RAM,25 GB SSD,1.00 TB BW
+    plan: 2048 MB RAM,55 GB SSD,2.00 TB BW
   ssh_keys:
     - jenkins.homebox.space
     - default
