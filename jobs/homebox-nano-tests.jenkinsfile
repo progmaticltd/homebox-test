@@ -1,0 +1,117 @@
+pipeline {
+
+    agent any
+
+    environment {
+        SSH_AUTH_SOCK = '/tmp/jenkins-ssh-agent'
+    }
+
+    stages {
+        stage('Cleanup') {
+            steps {
+                dir("homebox") {
+                    deleteDir()
+                }
+                dir("homebox-test") {
+                    deleteDir()
+                }
+            }
+        }
+        stage('Clone homebox') {
+            steps {
+                dir("homebox") {
+                    // Get some code from a GitHub repository
+                    git 'https://github.com/progmaticltd/homebox.git'
+                    sh "git checkout dev"
+                }
+            }
+        }
+        stage('Start docker') {
+            steps {
+                dir("homebox/devel") {
+                    ansiColor('xterm') {
+                        sh 'docker-compose up -d'
+                    }
+                }
+            }
+        }
+        stage('Clone test playbooks') {
+            steps {
+                dir("homebox-test") {
+                    // Get some code from a GitHub repository
+                    git 'https://github.com/progmaticltd/homebox-test.git'
+                }
+            }
+        }
+        stage('Start VMs') {
+            steps {
+                dir("homebox-test/provisioning/vultr") {
+                    withCredentials([string(credentialsId: 'vultr-api-key', variable: 'vultrApiKey')]) {
+                        withEnv(["VULTR_API_KEY=${vultrApiKey}"]) {
+                            ansiblePlaybook(
+                                credentialsId: 'vultr-api-key',
+                                inventory: '../config/hosts-local.yml',
+                                playbook: 'playbooks/environment-start.yml',
+                                extraVars: [env: 'vultr'])
+                        }
+                    }
+                }
+            }
+        }
+        stage('Prepare VM config') {
+            steps {
+                sh "cp -f homebox-test/configs/vultr-buster-nano/hosts.yml homebox/config/"
+                sh "cp -f homebox-test/configs/vultr-buster-nano/system.yml homebox/config/"
+				// This seems necessry to be sure the VM is ready to connect
+				sh "sleep 30"
+            }
+        }
+        stage('Provision VM') {
+            steps {
+                dir("homebox/install") {
+                    ansiblePlaybook(
+                        inventory: '../config/hosts.yml',
+                        playbook: 'playbooks/main.yml')
+                }
+            }
+        }
+        stage('Stop VMs') {
+            steps {
+                dir("homebox-test/provisioning/vultr") {
+                    withCredentials([string(credentialsId: 'vultr-api-key', variable: 'vultrApiKey')]) {
+                        withEnv(["VULTR_API_KEY=${vultrApiKey}"]) {
+                            ansiblePlaybook(
+                                credentialsId: 'vultr-api-key',
+                                inventory: '../config/hosts-local.yml',
+                                playbook: 'playbooks/environment-stop.yml',
+                                extraVars: [env: 'vultr'])
+                        }
+                    }
+                }
+            }
+        }
+		stage('Stop docker') {
+            steps {
+				dir("devel") {
+                    ansiColor('xterm') {
+						sh 'docker-compose stop -t 60'
+                    }
+				}
+            }
+		}
+		stage('Remove containers') {
+            steps {
+				dir("devel") {
+                    ansiColor('xterm') {
+						sh 'docker-compose rm -f'
+                    }
+				}
+            }
+		}
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

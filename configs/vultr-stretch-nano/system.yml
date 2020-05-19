@@ -14,7 +14,7 @@ system:
 network:
   domain: homebox.local
   hostname: main.homebox.local
-  external_ip: 136.244.78.7
+  external_ip: 136.244.77.69
   backup_ip: 2001:19f0:7400:820e:5400:02ff:fec3:c80f
 
 ###############################################################################
