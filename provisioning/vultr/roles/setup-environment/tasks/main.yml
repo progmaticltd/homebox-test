@@ -3,6 +3,6 @@
 - name: Set up all the server instances
   include_tasks: setup-one.yml
   with_items:
-    - '{{ vultr.instances }}'
+    - '{{ vultr.instances | selectattr("testing", "contains", testing) | list }}'
   loop_control:
     loop_var: instance

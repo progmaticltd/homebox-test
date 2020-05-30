@@ -16,9 +16,11 @@ vultr:
       hostname: main
       firewall_group: 'homebox-server'
       private_network_enabled: true
+      testing: [ 'stretch' ]
     - name: buster-nano
       os: Debian 10 x64 (buster)
       ipv6_enabled: false
       hostname: main
       firewall_group: 'homebox-server'
       private_network_enabled: true
+      testing: [ 'buster' ]
