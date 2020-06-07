@@ -1,5 +1,10 @@
 # HomeBox configuration for local testing
 
+# Use .test as a TLD for testing.
+# See https://en.wikipedia.org/wiki/.test
+# And https://en.wikipedia.org/wiki/.local
+# to compare
+
 ###############################################################################
 # System settings
 system:
@@ -12,8 +17,8 @@ system:
 ###############################################################################
 # Domain and hostname information
 network:
-  domain: homebox.local
-  hostname: main.homebox.local
+  domain: homebox.test
+  hostname: main.homebox.test
   external_ip: 136.244.78.7
   backup_ip: 2a05:f480:1000:8da:5400:02ff:fec3:c827
 
@@ -24,34 +29,34 @@ users:
   cn: Victor Hugo
   first_name: Victor
   last_name: Hugo
-  mail: victor@homebox.local
+  mail: victor@homebox.test
   aliases:
-    - vhugo@homebox.local
-    - victor.hugo@homebox.local
+    - vhugo@homebox.test
+    - victor.hugo@homebox.test
 - uid: camille
   cn: Camille Claudel
   first_name: Camille
   last_name: Claudel
-  mail: camille@homebox.local
+  mail: camille@homebox.test
   aliases:
-    - cclaudel@homebox.local
-    - camille.claudel@homebox.local
+    - cclaudel@homebox.test
+    - camille.claudel@homebox.test
 - uid: rembrandt
   cn: Rembrandt Harmenszoon van Rijn
   first_name: Rembrandt
   last_name: Harmenszoon
-  mail: rembrandt@homebox.local
+  mail: rembrandt@homebox.test
   aliases:
-    - rharmenszoon@homebox.local
-    - rembrandt.harmenszoon@homebox.local
+    - rharmenszoon@homebox.test
+    - rembrandt.harmenszoon@homebox.test
 - uid: antonio
   cn: Antonio Vivaldi
   first_name: Antonio
   last_name: Vivaldi
-  mail: antonio@homebox.local
+  mail: antonio@homebox.test
   aliases:
-    - tonio@homebox.local
-    - antonio.vivaldi@homebox.local
+    - tonio@homebox.test
+    - antonio.vivaldi@homebox.test
 
 ###############################################################################
 # Email related options
