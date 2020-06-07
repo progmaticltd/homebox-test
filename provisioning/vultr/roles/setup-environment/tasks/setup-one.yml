@@ -1,6 +1,6 @@
 ---
 
-- name: 'Set the server instance state'
+- name: Set the server instance state
   delegate_to: localhost
   register: api_answer
   vultr_server:
@@ -13,6 +13,14 @@
     ipv6_enabled: '{{ instance.ipv6_enabled }}'
     hostname: '{{ instance.hostname }}'
     firewall_group: '{{ instance.firewall_group }}'
+
+- name: Wait for the machine to be reinstalled
+  when: state == 'reinstalled'
+  delegate_to: localhost
+  wait_for_connection:
+    delay: 30
+    sleep: 10
+    timeout: '{{ reinstall.timeout }}'
 
 - name: Store the private IP address
   when: state != 'stopped'

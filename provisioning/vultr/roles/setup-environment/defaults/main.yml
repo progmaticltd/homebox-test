@@ -1,0 +1,5 @@
+---
+
+reinstall:
+  # Wait 5 minutes maximum for a server to be re-installed
+  timeout: 300
