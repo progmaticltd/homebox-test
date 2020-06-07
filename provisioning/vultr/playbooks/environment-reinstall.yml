@@ -1,14 +1,5 @@
 ---
 
-- name: Check API access
-  hosts: localhost
-  connection: local
-  become: false
-  vars_files:
-    - '{{ playbook_dir }}/../../config/systems-{{ env }}.yml'
-  roles:
-    - check-api-access
-
 - name: Reinstall and start all the test instances
   hosts: localhost
   connection: local

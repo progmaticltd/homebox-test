@@ -1,5 +1,0 @@
----
-
-- name: Get the plan facts
-  local_action:
-    module: vultr_plan_facts
